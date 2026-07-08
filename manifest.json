@@ -1,0 +1,47 @@
+{
+  "name": "SAM EMPIRE — Viwanja Kigamboni",
+  "short_name": "SAM EMPIRE",
+  "description": "Premium real estate platform for buying surveyed, government-approved land plots in Kigamboni, Dar es Salaam, Tanzania.",
+  "lang": "sw-TZ",
+  "dir": "ltr",
+  "start_url": "/index.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#050F26",
+  "theme_color": "#081F4D",
+  "categories": ["business", "finance", "lifestyle"],
+  "icons": [
+    { "src": "/assets/icons/favicon-16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "/assets/icons/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tazama Viwanja",
+      "short_name": "Viwanja",
+      "description": "Browse all available land plots",
+      "url": "/properties.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Maeneo",
+      "short_name": "Maeneo",
+      "description": "Explore locations in Kigamboni",
+      "url": "/locations.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Wasiliana",
+      "short_name": "Wasiliana",
+      "description": "Contact a sales agent",
+      "url": "/contact.html",
+      "icons": [{ "src": "/assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

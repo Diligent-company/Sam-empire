@@ -1,0 +1,87 @@
+rules_version = '2';
+
+// =============================================================================
+// SAM EMPIRE — Cloud Storage Security Rules
+// Layout:
+//   /properties/{propertyId}/...   property images, videos, brochures (admin write)
+//   /locations/{slug}/...          location media (admin write)
+//   /gallery/... , /videos/...     site media library (admin write)
+//   /blog/... , /news/...          article cover images (admin write)
+//   /settings/...                  logo, hero, og-image (admin write)
+//   /users/{uid}/...               customer avatars / uploaded docs (owner write)
+//   /public/...                    misc public assets (admin write)
+// Public read is allowed for marketing media; uploads are validated for type
+// and size. This project ships with no Cloud Functions, so admin status is
+// NOT a custom auth claim (nothing would ever set it) — it mirrors the same
+// /admins/{uid} Firestore document that firestore.rules and the admin console
+// guard check, via the cross-service firestore.get() rules function.
+// =============================================================================
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() {
+      return request.auth != null &&
+        firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+    function isOwner(uid) { return request.auth != null && request.auth.uid == uid; }
+
+    function isImage()    { return request.resource.contentType.matches('image/.*'); }
+    function isMedia()    { return request.resource.contentType.matches('(image|video)/.*'); }
+    function isDocument() { return request.resource.contentType.matches('(application/pdf|image/.*)'); }
+    function underSize(mb) { return request.resource.size < mb * 1024 * 1024; }
+
+    // ---- Marketing media: public read, admin write -------------------------
+    match /properties/{propertyId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isMedia() && underSize(50);
+    }
+    match /locations/{slug}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isMedia() && underSize(50);
+    }
+    match /gallery/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underSize(25);
+    }
+    match /videos/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isMedia() && underSize(200);
+    }
+    match /blog/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underSize(25);
+    }
+    match /news/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underSize(25);
+    }
+    match /settings/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underSize(10);
+    }
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && underSize(25);
+    }
+
+    // ---- Admin-only documents (brochures, contracts, survey scans) ---------
+    match /documents/{allPaths=**} {
+      allow read: if isAdmin();
+      allow write: if isAdmin() && isDocument() && underSize(50);
+    }
+
+    // ---- Customer-owned uploads -------------------------------------------
+    match /users/{uid}/{allPaths=**} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if isOwner(uid) && isImage() && underSize(10);
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // ---- Default deny ------------------------------------------------------
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

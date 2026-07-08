@@ -1,0 +1,179 @@
+rules_version = '2';
+
+// =============================================================================
+// SAM EMPIRE — Firestore Security Rules
+// Model:
+//   • Public website reads PUBLISHED content only (properties, locations,
+//     gallery, videos, testimonials, faqs, blog, news, partners, public settings).
+//   • Anyone (incl. anonymous visitors) may CREATE leads/appointments/messages
+//     and newsletter subscriptions — these are inbound forms, never readable
+//     back by the public.
+//   • Signed-in customers own their profile, favourites, saved searches and may
+//     read their own appointments/reservations.
+//   • Admins (a doc in /admins/{uid} with active==true) have full management
+//     access. Sensitive collections are admin-only.
+// =============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Helpers -----------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function uid() {
+      return request.auth.uid;
+    }
+    function adminDoc() {
+      return get(/databases/$(database)/documents/admins/$(uid()));
+    }
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/admins/$(uid()))
+        && adminDoc().data.active == true;
+    }
+    function hasRole(role) {
+      return isAdmin() && adminDoc().data.role == role;
+    }
+    function isOwner(resourceUserId) {
+      return isSignedIn() && uid() == resourceUserId;
+    }
+    function isPublished(data) {
+      return data.status == 'published' || data.published == true;
+    }
+    // Basic shape guards for inbound public forms (anti-spam / size limits).
+    function validInbound() {
+      return request.resource.data.keys().hasOnly(
+        ['name','phone','email','message','propertyId','propertyCode',
+         'source','status','date','time','notes','createdAt','locale','consent']
+      )
+      && request.resource.data.name is string
+      && request.resource.data.name.size() <= 120
+      && (!('message' in request.resource.data) || request.resource.data.message.size() <= 5000);
+    }
+
+    // ---- PUBLIC, READ-ONLY CONTENT (managed by admins) ---------------------
+    match /properties/{id} {
+      allow read: if isPublished(resource.data) || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+    match /locations/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /gallery/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /videos/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /testimonials/{id} {
+      allow read: if resource.data.approved == true || isAdmin();
+      allow create: if isSignedIn();               // customers submit reviews
+      allow update, delete: if isAdmin();
+    }
+    match /faqs/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /blog/{id} {
+      allow read: if isPublished(resource.data) || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /news/{id} {
+      allow read: if isPublished(resource.data) || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /partners/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /careers/{id} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---- SETTINGS ----------------------------------------------------------
+    // The single "public" settings document is world-readable (brand, contacts,
+    // SEO, homepage content). All other settings docs are admin-only.
+    match /settings/{id} {
+      allow read: if id == 'public' || isAdmin();
+      allow write: if isAdmin();
+    }
+    // Admin-authored page copy (CMS): homepage hero/stats, about, footer, SEO.
+    match /content/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---- INBOUND FORMS (create by anyone, read by admin/owner) -------------
+    match /leads/{id} {
+      allow create: if validInbound();
+      allow read, update, delete: if isAdmin();
+    }
+    match /messages/{id} {
+      allow create: if validInbound();
+      allow read, update, delete: if isAdmin();
+    }
+    match /appointments/{id} {
+      allow create: if validInbound();
+      allow read: if isAdmin() || isOwner(resource.data.userId);
+      allow update, delete: if isAdmin();
+    }
+    match /reservations/{id} {
+      allow create: if isSignedIn();
+      allow read: if isAdmin() || isOwner(resource.data.userId);
+      allow update, delete: if isAdmin();
+    }
+    match /subscribers/{id} {
+      allow create: if request.resource.data.email is string
+                    && request.resource.data.email.size() <= 254;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ---- CUSTOMER-OWNED DATA ----------------------------------------------
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+    match /favorites/{id} {
+      allow read, write: if isSignedIn()
+        && (request.resource.data.userId == uid() || resource.data.userId == uid());
+      allow read, write: if isAdmin();
+    }
+    match /savedSearches/{id} {
+      allow read, write: if isSignedIn()
+        && (request.resource.data.userId == uid() || resource.data.userId == uid());
+      allow read, write: if isAdmin();
+    }
+    match /notifications/{id} {
+      allow read, update: if isAdmin() || isOwner(resource.data.userId);
+      allow create, delete: if isAdmin();
+    }
+
+    // ---- ADMIN-ONLY SYSTEM COLLECTIONS ------------------------------------
+    match /admins/{id} {
+      allow read: if isAdmin();
+      // Bootstrapping the first admin is done from the Firebase console.
+      allow write: if hasRole('superadmin');
+    }
+    match /roles/{id}        { allow read, write: if isAdmin(); }
+    match /permissions/{id}  { allow read, write: if isAdmin(); }
+    match /analytics/{id}    { allow read: if isAdmin(); allow write: if isAdmin(); }
+    match /activityLogs/{id} { allow read: if isAdmin(); allow create: if isAdmin(); allow update, delete: if false; }
+    match /backups/{id}      { allow read, write: if hasRole('superadmin') || isAdmin(); }
+    match /documents/{id} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---- DEFAULT DENY ------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

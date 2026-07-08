@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hauko Mtandaoni &mdash; SAM EMPIRE</title>
+  <meta name="description" content="Kwa sasa hauko mtandaoni. Unganisha tena ili kuendelea kuvinjari viwanja vya SAM EMPIRE." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#081F4D" />
+
+  <!-- Icons / manifest -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Design system -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/responsive.css" />
+
+  <!-- Apply saved theme before paint -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("sam-theme");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    .offline-screen {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--grad-navy);
+      color: #fff;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .offline-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+    }
+    .offline-screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(1000px 440px at 50% 0%, rgba(212, 175, 55, 0.18), transparent 60%);
+    }
+
+    .offline-top { padding: var(--s-6) 0; }
+    .offline-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: var(--s-9);
+      text-align: center;
+    }
+    .offline-card { width: 100%; max-width: 620px; }
+
+    .offline-glyph {
+      width: clamp(96px, 22vw, 140px);
+      height: clamp(96px, 22vw, 140px);
+      margin: 0 auto var(--s-7);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-navy-border);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+    .offline-glyph svg { width: 48%; height: 48%; color: var(--c-gold); }
+
+    .offline-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: var(--s-5);
+      padding: 0.45em 1em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--glass-navy-border);
+      background: rgba(255, 255, 255, 0.04);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-gold-bright);
+    }
+    .offline-status .dot { background: var(--c-warning); color: var(--c-warning); }
+    .offline-status.is-online { color: #BFF3D1; }
+    .offline-status.is-online .dot { background: var(--c-success); color: var(--c-success); }
+
+    .offline-title { color: #fff; font-size: clamp(1.8rem, 5vw, var(--fs-2xl)); }
+    .offline-text {
+      margin: var(--s-4) auto 0;
+      max-width: 48ch;
+      color: rgba(234, 240, 251, 0.82);
+      font-size: var(--fs-md);
+      line-height: var(--lh-loose);
+    }
+    .offline-text .en {
+      display: block;
+      margin-top: var(--s-2);
+      font-size: var(--fs-sm);
+      color: rgba(234, 240, 251, 0.55);
+    }
+    .offline-actions {
+      margin-top: var(--s-8);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+      justify-content: center;
+    }
+    .offline-hint {
+      margin-top: var(--s-7);
+      font-size: var(--fs-xs);
+      color: rgba(234, 240, 251, 0.5);
+    }
+    .offline-foot {
+      padding: var(--s-6) 0 var(--s-8);
+      text-align: center;
+      font-size: var(--fs-xs);
+      color: rgba(234, 240, 251, 0.5);
+    }
+    .offline-foot a { color: var(--c-gold-bright); }
+    .brand--inverse .brand__name { color: #fff; }
+    .brand--inverse .brand__tag { color: var(--c-gold-bright); }
+  </style>
+</head>
+<body>
+  <div class="offline-screen">
+    <header class="offline-top">
+      <div class="container flex-between">
+        <a class="brand brand--inverse" href="/" aria-label="SAM EMPIRE — Nyumbani">
+          <img class="brand__mark" src="/assets/icons/logo.svg" alt="" width="44" height="44" />
+          <span>
+            <span class="brand__name">SAM EMPIRE</span>
+            <span class="brand__tag">Muuzaji wa Viwanja Kigamboni</span>
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <main class="offline-main">
+      <div class="container">
+        <div class="offline-card">
+          <div class="offline-glyph" aria-hidden="true">
+            <!-- cloud-off icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 2l20 20" />
+              <path d="M5.8 9.5A5 5 0 0 0 6 19h11" />
+              <path d="M9.5 5.3A6 6 0 0 1 19 9a4 4 0 0 1 1.9 7.4" />
+            </svg>
+          </div>
+
+          <span class="offline-status" id="net-status" role="status">
+            <span class="dot"></span><span id="net-label">Hakuna Mtandao</span>
+          </span>
+
+          <h1 class="offline-title">Kwa sasa hauko mtandaoni</h1>
+          <p class="offline-text">
+            Hatuwezi kupakia ukurasa huu bila muunganisho wa intaneti.
+            Kurasa ulizotembelea hivi karibuni bado zinapatikana, na tutakuunganisha
+            tena mara muunganisho utakaporejea.
+            <span class="en">You appear to be offline. Recently viewed pages remain available; we will reconnect automatically.</span>
+          </p>
+
+          <div class="offline-actions">
+            <button class="btn btn-gold btn-lg" id="retry-btn" type="button">Jaribu Tena</button>
+            <a class="btn btn-glass btn-lg" href="/">Nenda Nyumbani</a>
+          </div>
+
+          <p class="offline-hint">Ukurasa huu utajipakia upya wenyewe muunganisho ukirejea.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="offline-foot">
+      <div class="container">
+        SAM EMPIRE &copy; <span id="year">2026</span> &middot; Simu
+        <a href="tel:+255689621263">+255 689 621 263</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    var statusEl = document.getElementById("net-status");
+    var labelEl = document.getElementById("net-label");
+    var retryBtn = document.getElementById("retry-btn");
+
+    function reflectStatus() {
+      if (navigator.onLine) {
+        statusEl.classList.add("is-online");
+        labelEl.textContent = "Mtandao Umerejea";
+        // Give the user a beat to see the status, then reload back into the app.
+        setTimeout(function () { window.location.reload(); }, 900);
+      } else {
+        statusEl.classList.remove("is-online");
+        labelEl.textContent = "Hakuna Mtandao";
+      }
+    }
+
+    retryBtn.addEventListener("click", function () {
+      if (navigator.onLine) {
+        window.location.href = "/";
+      } else {
+        labelEl.textContent = "Bado Hakuna Mtandao…";
+        retryBtn.classList.add("is-loading");
+        setTimeout(function () { retryBtn.classList.remove("is-loading"); reflectStatus(); }, 1200);
+      }
+    });
+
+    window.addEventListener("online", reflectStatus);
+    window.addEventListener("offline", reflectStatus);
+    reflectStatus();
+  </script>
+</body>
+</html>

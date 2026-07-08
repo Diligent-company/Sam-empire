@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viwanja — SAM EMPIRE Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#081F4D" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
+  <script>(function(){try{var r=localStorage.getItem("sam:theme");document.documentElement.setAttribute("data-theme",r?JSON.parse(r):"light");}catch(e){}})();</script>
+  <style>
+    .checks { display: flex; flex-wrap: wrap; gap: var(--s-4); }
+    .check { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); font-weight: 600; color: var(--text-muted); cursor: pointer; }
+    .check input { width: 18px; height: 18px; accent-color: var(--c-gold); }
+    .img-thumb { position: relative; width: 100px; height: 76px; border-radius: var(--r-sm); overflow: hidden; border: 1px solid var(--border); }
+    .img-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .img-thumb button { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; background: rgba(5,15,38,.75); color: #fff; display: grid; place-items: center; }
+    .img-row { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-3); }
+    .upl { position: relative; }
+    .upl__bar { height: 4px; background: var(--surface-3); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+    .upl__bar > i { display: block; height: 100%; width: 0; background: var(--grad-gold); transition: width .2s; }
+  </style>
+</head>
+<body data-page="properties" data-title="Viwanja">
+  <div class="admin-gate" id="admin-gate"><div class="admin-loading"><span class="spinner" style="width:40px;height:40px"></span></div></div>
+
+  <div class="admin-shell" id="admin-shell" hidden>
+    <div class="admin-main">
+      <div class="admin-content" id="admin-content">
+
+        <!-- LIST -->
+        <div id="list-view">
+          <div class="admin-toolbar">
+            <input class="input" id="p-search" type="search" placeholder="Tafuta kwa jina au msimbo…" />
+            <select class="select" id="p-status"><option value="">Hali zote</option><option value="published">Hai (published)</option><option value="draft">Rasimu (draft)</option></select>
+            <div class="admin-toolbar__spacer"></div>
+            <button class="btn btn-gold" id="p-add" type="button">+ Ongeza Kiwanja</button>
+          </div>
+          <div class="panel">
+            <div class="atable-wrap">
+              <table class="atable">
+                <thead><tr><th></th><th>Kiwanja</th><th>Eneo</th><th>Bei</th><th>Hali</th><th>Uchapishaji</th><th></th></tr></thead>
+                <tbody id="props-tbody"><tr><td colspan="7" class="text-center text-muted" style="padding:var(--s-8)">Inapakia…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDITOR -->
+        <div id="editor-view" hidden>
+          <div class="flex-between mb-5 wrap gap-3">
+            <h2 id="editor-title">Ongeza Kiwanja</h2>
+            <div class="flex gap-2"><button class="btn btn-ghost" id="e-cancel" type="button">Ghairi</button><button class="btn btn-gold" id="e-save" type="button">Hifadhi</button></div>
+          </div>
+
+          <div class="panel"><div class="panel__body admin-form">
+            <div class="row2">
+              <div class="field"><label class="label" for="e-title">Jina la Kiwanja *</label><input class="input" id="e-title" maxlength="140" /></div>
+              <div class="field"><label class="label" for="e-code">Msimbo</label><input class="input" id="e-code" placeholder="Itatengenezwa kiotomatiki" /></div>
+            </div>
+            <div class="row3">
+              <div class="field"><label class="label" for="e-location">Eneo *</label><select class="select" id="e-location"></select></div>
+              <div class="field"><label class="label" for="e-type">Aina</label><select class="select" id="e-type"><option>Makazi</option><option>Biashara</option><option>Kilimo</option><option>Pwani</option></select></div>
+              <div class="field"><label class="label" for="e-availability">Upatikanaji</label><select class="select" id="e-availability"><option value="available">Inapatikana</option><option value="reserved">Imehifadhiwa</option><option value="sold">Imeuzwa</option></select></div>
+            </div>
+            <div class="row3">
+              <div class="field"><label class="label" for="e-price">Bei (TSh) *</label><input class="input" id="e-price" type="number" min="0" /></div>
+              <div class="field"><label class="label" for="e-oldPrice">Bei ya Awali (punguzo)</label><input class="input" id="e-oldPrice" type="number" min="0" /></div>
+              <div class="field"><label class="label" for="e-status">Uchapishaji</label><select class="select" id="e-status"><option value="draft">Rasimu</option><option value="published">Chapisha (published)</option></select></div>
+            </div>
+            <div class="row3">
+              <div class="field"><label class="label" for="e-size">Ukubwa</label><input class="input" id="e-size" type="number" min="0" /></div>
+              <div class="field"><label class="label" for="e-sizeUnit">Kipimo</label><input class="input" id="e-sizeUnit" value="m²" /></div>
+              <div class="field"><label class="label" for="e-downPayment">Malipo ya Awali</label><input class="input" id="e-downPayment" type="number" min="0" /></div>
+            </div>
+            <div class="row3">
+              <div class="field"><label class="label" for="e-installments">Awamu (miezi)</label><input class="input" id="e-installments" type="number" min="0" /></div>
+              <div class="field"><label class="label" for="e-lat">GPS Latitude</label><input class="input" id="e-lat" type="number" step="any" /></div>
+              <div class="field"><label class="label" for="e-lng">GPS Longitude</label><input class="input" id="e-lng" type="number" step="any" /></div>
+            </div>
+
+            <div class="field">
+              <label class="label">Beji</label>
+              <div class="checks">
+                <label class="check"><input type="checkbox" id="e-featured" />Maalum</label>
+                <label class="check"><input type="checkbox" id="e-gov" />Serikali Imeidhinisha</label>
+                <label class="check"><input type="checkbox" id="e-verified" />Imethibitishwa</label>
+                <label class="check"><input type="checkbox" id="e-new" />Mpya</label>
+                <label class="check"><input type="checkbox" id="e-hot" />Ofa (Hot)</label>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="field"><label class="label" for="e-ownership">Umiliki</label><input class="input" id="e-ownership" value="Hati Miliki (Title Deed)" /></div>
+              <div class="field"><label class="label" for="e-roadAccess">Barabara</label><input class="input" id="e-roadAccess" placeholder="Barabara ya changarawe" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label class="label" for="e-landUse">Matumizi ya Ardhi</label><input class="input" id="e-landUse" placeholder="Makazi" /></div>
+              <div class="field"><label class="label" for="e-utilities">Huduma (tenganisha kwa koma)</label><input class="input" id="e-utilities" placeholder="Umeme, Maji" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label class="label" for="e-schools">Shule (jirani)</label><input class="input" id="e-schools" /></div>
+              <div class="field"><label class="label" for="e-hospitals">Hospitali (jirani)</label><input class="input" id="e-hospitals" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label class="label" for="e-markets">Masoko (jirani)</label><input class="input" id="e-markets" /></div>
+              <div class="field"><label class="label" for="e-transport">Usafiri (jirani)</label><input class="input" id="e-transport" /></div>
+            </div>
+
+            <div class="field"><label class="label" for="e-description">Maelezo</label><textarea class="textarea" id="e-description" rows="4"></textarea></div>
+            <div class="field"><label class="label" for="e-features">Sifa (mstari mmoja kwa sifa moja)</label><textarea class="textarea" id="e-features" rows="4" placeholder="Limepimwa rasmi&#10;Mipaka iko wazi&#10;Karibu na barabara"></textarea></div>
+
+            <div class="field">
+              <label class="label">Picha za Kiwanja</label>
+              <div class="dropzone" id="e-dropzone">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" style="margin:0 auto var(--s-2)"><path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <p><strong>Bofya au buruta picha hapa</strong></p>
+                <p class="hint">JPG, PNG, WEBP — zitabanwa na kuwekwa alama ya maji kiotomatiki</p>
+                <input type="file" id="e-file" accept="image/*" multiple hidden />
+              </div>
+              <div class="img-row" id="e-images"></div>
+              <div id="e-upl"></div>
+            </div>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/admin-core.js"></script>
+  <script type="module" src="/assets/js/admin-properties.js"></script>
+</body>
+</html>

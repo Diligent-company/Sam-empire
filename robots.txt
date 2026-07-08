@@ -1,0 +1,18 @@
+# SAM EMPIRE — robots.txt
+# Muuzaji wa Viwanja Kigamboni
+
+User-agent: *
+Allow: /
+Disallow: /admin-login.html
+Disallow: /admin-dashboard.html
+Disallow: /admin/
+Disallow: /*?*token=
+Disallow: /404.html
+
+# Be polite to aggressive crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+User-agent: SemrushBot
+Crawl-delay: 10
+
+Sitemap: https://www.samempire.co.tz/sitemap.xml

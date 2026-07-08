@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Kiwanja &mdash; SAM EMPIRE</title>
+  <meta name="description" content="Maelezo kamili ya kiwanja: bei, ukubwa, eneo, hati, ramani na huduma za jirani. Panga ziara au hifadhi kiwanja na SAM EMPIRE." />
+  <meta name="theme-color" content="#081F4D" />
+  <meta id="og-title" property="og:title" content="Kiwanja — SAM EMPIRE" />
+  <meta id="og-desc" property="og:description" content="Kiwanja kilichopimwa Kigamboni chenye hati safi." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SAM EMPIRE" />
+  <meta property="og:image" content="https://samempire.co.tz/assets/img/og-image.png" />
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/responsive.css" />
+
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("sam:theme");
+        var saved = raw ? JSON.parse(raw) : null;
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    .detail-grid { display: grid; grid-template-columns: 1.65fr 0.95fr; gap: var(--s-9); align-items: start; }
+    @media (max-width: 1024px) { .detail-grid { grid-template-columns: 1fr; gap: var(--s-7); } }
+
+    /* Gallery */
+    .gallery__main { position: relative; aspect-ratio: 16/10; border-radius: var(--r-xl); overflow: hidden; background: var(--c-navy-800); border: 1px solid var(--border); box-shadow: var(--shadow-md); }
+    .gallery__main img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+    .gallery__badges { position: absolute; top: var(--s-4); left: var(--s-4); display: flex; flex-wrap: wrap; gap: var(--s-2); z-index: 2; }
+    .gallery__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--glass-navy); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid var(--glass-navy-border); color: #fff; z-index: 2; }
+    .gallery__nav:hover { background: var(--c-gold); color: var(--c-navy-900); }
+    .gallery__prev { left: var(--s-4); } .gallery__next { right: var(--s-4); }
+    .gallery__count { position: absolute; bottom: var(--s-4); right: var(--s-4); z-index: 2; font-family: var(--font-mono); font-size: var(--fs-2xs); color: #fff; background: var(--glass-navy); border: 1px solid var(--glass-navy-border); padding: 0.3em 0.7em; border-radius: var(--r-xs); }
+    .gallery__thumbs { display: flex; gap: var(--s-3); margin-top: var(--s-3); overflow-x: auto; padding-bottom: 4px; }
+    .gallery__thumb { flex: none; width: 96px; aspect-ratio: 16/11; border-radius: var(--r-sm); overflow: hidden; border: 2px solid transparent; cursor: pointer; }
+    .gallery__thumb.is-active { border-color: var(--c-gold); }
+    .gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Lightbox */
+    .lightbox { position: fixed; inset: 0; z-index: var(--z-modal); background: rgba(5,15,38,0.92); display: none; place-items: center; padding: var(--gutter); }
+    .lightbox.is-open { display: grid; }
+    .lightbox img { max-width: 92vw; max-height: 86vh; border-radius: var(--r-md); box-shadow: var(--shadow-xl); }
+    .lightbox__close { position: absolute; top: var(--s-5); right: var(--s-5); width: 46px; height: 46px; border-radius: 50%; background: var(--glass-navy); border: 1px solid var(--glass-navy-border); color: #fff; display: grid; place-items: center; }
+
+    /* Title + price */
+    .detail-title { font-size: clamp(1.8rem, 4vw, var(--fs-2xl)); }
+    .detail-loc { display: inline-flex; align-items: center; gap: 0.4em; color: var(--text-muted); font-weight: 600; }
+    .price-row { display: flex; align-items: baseline; gap: var(--s-3); flex-wrap: wrap; }
+    .price-now { font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-2xl); color: var(--c-navy); }
+    [data-theme="dark"] .price-now { color: var(--c-gold-bright); }
+    .price-old { font-family: var(--font-mono); color: var(--text-faint); text-decoration: line-through; }
+
+    /* Spec sheet */
+    .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
+    @media (max-width: 560px) { .spec-grid { grid-template-columns: 1fr; } }
+    .spec { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface); }
+    .spec__icon { flex: none; width: 38px; height: 38px; border-radius: var(--r-sm); display: grid; place-items: center; color: var(--c-gold-deep); background: var(--c-warning-soft); }
+    [data-theme="dark"] .spec__icon { background: rgba(212,175,55,0.12); }
+    .spec__k { font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-faint); font-weight: 700; }
+    .spec__v { font-weight: 700; color: var(--text); }
+
+    .feature-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
+    @media (max-width: 560px) { .feature-list { grid-template-columns: 1fr; } }
+    .feature-list li { display: flex; gap: 0.5em; align-items: flex-start; color: var(--text-muted); font-size: var(--fs-sm); }
+    .feature-list svg { flex: none; color: var(--c-success); margin-top: 3px; }
+
+    .amenity { display: flex; gap: var(--s-3); align-items: flex-start; }
+    .amenity__icon { flex: none; color: var(--c-gold-deep); }
+
+    /* Sticky sidebar */
+    .side-card { position: sticky; top: calc(var(--header-h) + 16px); }
+    .seal-sm { width: 64px; height: 64px; border-radius: 50%; flex: none; display: grid; place-items: center; text-align: center; color: var(--c-navy-900);
+      background: radial-gradient(circle at 32% 28%, #F3DE94 0%, #E8C75A 26%, #D4AF37 55%, #B8932B 100%);
+      box-shadow: 0 8px 18px rgba(212,175,55,0.4), inset 0 2px 3px rgba(255,255,255,0.7), inset 0 -3px 6px rgba(122,92,18,0.5); }
+    .seal-sm span { font-family: var(--font-mono); font-size: 0.42rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.2; text-transform: uppercase; }
+
+    .share-row { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    .icon-action { width: 44px; height: 44px; border-radius: var(--r-sm); display: grid; place-items: center; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); transition: all var(--t-fast) var(--ease); }
+    .icon-action:hover { border-color: var(--c-gold); color: var(--c-gold-deep); transform: translateY(-2px); }
+
+    .property-card__fav.is-compare.is-active { background: var(--c-gold); color: var(--c-navy-900); border-color: var(--c-gold); }
+
+    /* Map */
+    .detail-map { position: relative; min-height: 360px; border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--border); background: var(--grad-navy); }
+    .detail-map__mount { position: absolute; inset: 0; }
+    .detail-map__fallback { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: var(--s-6); }
+    .detail-map__grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(212,175,55,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.10) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.6; }
+
+    .skeleton-block { border-radius: var(--r-lg); }
+  </style>
+</head>
+
+<body data-header="solid">
+  <div class="loader" role="status" aria-label="Inapakia">
+    <div class="loader__inner">
+      <div class="loader__brand">SAM <span>EMPIRE</span></div>
+      <div class="loader__tag">Muuzaji wa Viwanja Kigamboni</div>
+      <div class="loader__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#main">Rukia maudhui makuu</a>
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <span class="scroll-progress" data-scroll-progress aria-hidden="true" style="position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--grad-gold);transition:width .1s linear;"></span>
+    <div class="container container-wide site-header__inner">
+      <a class="brand" href="/" aria-label="SAM EMPIRE — Nyumbani">
+        <img class="brand__mark" src="/assets/icons/logo.svg" alt="" width="42" height="42" />
+        <span>
+          <span class="brand__name" data-bind="brand.name">SAM EMPIRE</span>
+          <span class="brand__tag" data-bind="brand.tagline">Muuzaji wa Viwanja Kigamboni</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Urambazaji mkuu">
+        <a class="nav__link" href="/">Nyumbani</a>
+        <a class="nav__link" href="/properties.html">Viwanja</a>
+        <a class="nav__link" href="/locations.html">Maeneo</a>
+        <a class="nav__link" href="/about.html">Kuhusu</a>
+        <a class="nav__link" href="/gallery.html">Picha</a>
+        <a class="nav__link" href="/contact.html">Wasiliana</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Badilisha mwangaza / giza">
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a class="icon-btn btn-hide-sm" data-auth="user" href="/account.html" aria-label="Akaunti yangu" title="Akaunti" hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0116 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </a>
+        <a class="btn btn-outline-gold btn-sm btn-hide-sm" data-auth="guest" href="/login.html">Ingia</a>
+        <a class="btn btn-gold btn-hide-sm" href="/properties.html">Viwanja Vyote</a>
+        <button class="menu-toggle" aria-label="Fungua menyu" aria-controls="drawer" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <aside class="drawer" id="drawer" aria-label="Menyu ya simu" aria-hidden="true">
+    <nav aria-label="Urambazaji wa simu">
+      <a class="drawer__link" href="/">Nyumbani</a>
+      <a class="drawer__link" href="/properties.html">Viwanja</a>
+      <a class="drawer__link" href="/locations.html">Maeneo</a>
+      <a class="drawer__link" href="/about.html">Kuhusu Sisi</a>
+      <a class="drawer__link" href="/gallery.html">Picha</a>
+      <a class="drawer__link" href="/contact.html">Wasiliana</a>
+    </nav>
+    <div class="flex flex-col gap-3 mt-6">
+      <a class="btn btn-gold btn-block" data-auth="user" href="/account.html" hidden>Akaunti Yangu</a>
+      <a class="btn btn-gold btn-block" data-auth="guest" href="/login.html">Ingia / Jisajili</a>
+      <a class="btn btn-whatsapp btn-block" data-action="whatsapp" data-message="Habari SAM EMPIRE!" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn-outline btn-block" data-action="call">Piga Simu</a>
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- Loading skeleton -->
+    <div id="property-loading" class="container container-wide section">
+      <div class="skeleton skeleton-block" style="height:28px;width:280px;margin-bottom:24px"></div>
+      <div class="detail-grid">
+        <div>
+          <div class="skeleton skeleton-block" style="aspect-ratio:16/10"></div>
+          <div class="skeleton skeleton-block" style="height:120px;margin-top:24px"></div>
+          <div class="skeleton skeleton-block" style="height:200px;margin-top:24px"></div>
+        </div>
+        <div class="skeleton skeleton-block" style="height:420px"></div>
+      </div>
+    </div>
+
+    <!-- Rendered by property.js -->
+    <div id="property-root" hidden></div>
+
+    <!-- Not found -->
+    <div id="property-missing" class="container container-narrow section text-center" hidden>
+      <p class="eyebrow is-centered">404</p>
+      <h1 class="mt-3">Kiwanja hakikupatikana</h1>
+      <p class="text-muted mt-4" style="max-width:46ch;margin-inline:auto">Samahani, kiwanja ulichotafuta hakipo au kimeshauzwa. Tazama viwanja vingine vinavyopatikana.</p>
+      <div class="flex-center gap-3 mt-7 wrap">
+        <a class="btn btn-gold" href="/properties.html">Viwanja Vyote</a>
+        <a class="btn btn-whatsapp" data-action="whatsapp" data-message="Habari, nilitafuta kiwanja lakini sikukipata. Naomba msaada." target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Picha kubwa">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Funga"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container container-wide">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a class="brand" href="/" aria-label="SAM EMPIRE">
+            <img class="brand__mark" src="/assets/icons/logo.svg" alt="" width="42" height="42" />
+            <span>
+              <span class="brand__name" data-bind="brand.name">SAM EMPIRE</span>
+              <span class="brand__tag" data-bind="brand.tagline">Muuzaji wa Viwanja Kigamboni</span>
+            </span>
+          </a>
+          <p class="footer__about" data-content="global:footerAbout">Tunauza viwanja vilivyopimwa na kuidhinishwa na serikali Kigamboni — hati safi, bei nafuu, na huduma ya kuaminika.</p>
+          <div class="socials">
+            <a class="social" data-social="facebook" href="#" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.5l.5-3H13v-2c0-.6.4-1 1-1z"/></svg></a>
+            <a class="social" data-social="instagram" href="#" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
+            <a class="social" data-social="youtube" href="#" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M22 12s0-3-.4-4.4a2.5 2.5 0 00-1.8-1.8C18.4 5.4 12 5.4 12 5.4s-6.4 0-7.8.4A2.5 2.5 0 002.4 7.6C2 9 2 12 2 12s0 3 .4 4.4a2.5 2.5 0 001.8 1.8c1.4.4 7.8.4 7.8.4s6.4 0 7.8-.4a2.5 2.5 0 001.8-1.8C22 15 22 12 22 12zm-12 3V9l5 3-5 3z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Viungo</h4>
+          <nav class="footer__links" aria-label="Viungo">
+            <a href="/properties.html">Viwanja</a>
+            <a href="/locations.html">Maeneo</a>
+            <a href="/about.html">Kuhusu Sisi</a>
+            <a href="/gallery.html">Picha</a>
+            <a href="/contact.html">Wasiliana</a>
+          </nav>
+        </div>
+        <div class="footer__col footer__col--links2">
+          <h4>Maeneo</h4>
+          <nav class="footer__links" aria-label="Maeneo">
+            <a href="/locations.html?slug=vijibweni">Vijibweni</a>
+            <a href="/locations.html?slug=kibada">Kibada</a>
+            <a href="/locations.html?slug=mwasonga">Mwasonga</a>
+            <a href="/locations.html?slug=kimbiji">Kimbiji</a>
+            <a href="/locations.html?slug=dege">Dege</a>
+          </nav>
+        </div>
+        <div class="footer__col">
+          <h4>Wasiliana Nasi</h4>
+          <div class="footer__contact">
+            <a class="footer__contact-item" data-action="call">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span data-bind="brand.phone">+255 689 621 263</span>
+            </a>
+            <a class="footer__contact-item" data-action="email">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              <span data-bind="brand.email">info@samempire.co.tz</span>
+            </a>
+          </div>
+          <form class="newsletter" data-newsletter aria-label="Jiunge na jarida">
+            <input class="input" type="email" name="email" placeholder="Barua pepe yako" autocomplete="email" required aria-label="Barua pepe" />
+            <button class="btn btn-gold" type="submit">Jiunge</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> SAM EMPIRE. Haki zote zimehifadhiwa.</span>
+        <nav class="flex gap-4 wrap" aria-label="Sera">
+          <a href="/privacy.html">Sera ya Faragha</a>
+          <a href="/terms.html">Vigezo &amp; Masharti</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fab-stack">
+    <a class="fab fab-whatsapp" data-action="whatsapp" data-message="Habari SAM EMPIRE!" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3 0-.4l-.8-1.9c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.7.7-.9 1.6-.6 2.6.5 1.7 1.6 3.1 3.2 4.1 1.6 1 2.9 1.2 3.9 1 .6-.1 1.4-.6 1.6-1.2.2-.5.2-1 .1-1.1z"/></svg>
+    </a>
+    <button class="fab fab-top" aria-label="Rudi juu" title="Rudi juu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="cookie" role="dialog" aria-label="Idhini ya vidakuzi">
+    <p class="cookie__text">Tovuti hii inatumia vidakuzi kuboresha matumizi yako. Kwa kuendelea, unakubali matumizi yake.</p>
+    <div class="cookie__actions">
+      <button class="btn btn-gold btn-sm" data-consent="accept">Kubali</button>
+      <button class="btn btn-ghost btn-sm" data-consent="decline">Kataa</button>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/property.js"></script>
+</body>
+</html>

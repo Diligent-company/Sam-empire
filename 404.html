@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 &middot; Ukurasa Haupatikani &mdash; SAM EMPIRE</title>
+  <meta name="description" content="Samahani, ukurasa uliouomba haupatikani. Rudi kwenye SAM EMPIRE kupata viwanja bora vya Kigamboni." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#081F4D" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SAM EMPIRE" />
+  <meta property="og:title" content="404 &middot; Ukurasa Haupatikani" />
+  <meta property="og:description" content="Ukurasa huu haupo. Gundua viwanja vilivyopimwa Kigamboni na SAM EMPIRE." />
+  <meta property="og:image" content="/assets/img/og-image.png" />
+
+  <!-- Icons / manifest -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Design system -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/responsive.css" />
+
+  <!-- Apply saved theme before paint to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("sam-theme");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = saved || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) { /* localStorage may be blocked; default theme stays */ }
+    })();
+  </script>
+
+  <style>
+    /* Page-scoped layout for the standalone error screen */
+    .error-screen {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--grad-navy);
+      color: #fff;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    /* Survey-grid backdrop — echoes the land-title identity */
+    .error-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, #000 30%, transparent 100%);
+    }
+    .error-screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(1100px 460px at 50% -8%, rgba(212, 175, 55, 0.20), transparent 62%);
+    }
+
+    .error-top {
+      padding: var(--s-6) 0;
+    }
+    .error-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: var(--s-9);
+    }
+    .error-card {
+      width: 100%;
+      max-width: 760px;
+      text-align: center;
+    }
+
+    /* Survey-corner ticks framing the code */
+    .error-code {
+      position: relative;
+      display: inline-block;
+      margin-inline: auto;
+      padding: clamp(12px, 4vw, 28px) clamp(20px, 6vw, 56px);
+    }
+    .error-code__num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(5.5rem, 22vw, 12rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      background: var(--grad-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+    .error-code::before,
+    .error-code::after {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border: 2px solid var(--c-gold);
+      opacity: 0.85;
+    }
+    .error-code::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .error-code::after  { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+    .error-coords {
+      margin-top: var(--s-2);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-gold-bright);
+    }
+    .error-title {
+      margin-top: var(--s-6);
+      color: #fff;
+      font-size: clamp(1.8rem, 4.5vw, var(--fs-2xl));
+    }
+    .error-text {
+      margin-top: var(--s-4);
+      margin-inline: auto;
+      max-width: 52ch;
+      color: rgba(234, 240, 251, 0.82);
+      font-size: var(--fs-md);
+      line-height: var(--lh-loose);
+    }
+    .error-text .en {
+      display: block;
+      margin-top: var(--s-2);
+      font-size: var(--fs-sm);
+      color: rgba(234, 240, 251, 0.58);
+    }
+    .error-actions {
+      margin-top: var(--s-8);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+      justify-content: center;
+    }
+
+    /* Quick links row, styled as plot references */
+    .error-links {
+      margin-top: var(--s-9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-3);
+      justify-content: center;
+    }
+    .error-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.65em 1.1em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--glass-navy-border);
+      background: rgba(255, 255, 255, 0.04);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      color: rgba(234, 240, 251, 0.82);
+      transition: color var(--t-fast) var(--ease),
+                  border-color var(--t-fast) var(--ease),
+                  background var(--t-fast) var(--ease),
+                  transform var(--t-fast) var(--ease);
+    }
+    .error-link:hover {
+      color: var(--c-navy-900);
+      background: var(--c-gold);
+      border-color: var(--c-gold);
+      transform: translateY(-2px);
+    }
+    .error-link .mono { font-size: var(--fs-2xs); opacity: 0.7; }
+    .error-link:hover .mono { opacity: 0.9; }
+
+    .error-foot {
+      padding: var(--s-6) 0 var(--s-8);
+      text-align: center;
+      font-size: var(--fs-xs);
+      color: rgba(234, 240, 251, 0.5);
+    }
+    .error-foot a { color: var(--c-gold-bright); }
+
+    .brand--inverse .brand__name { color: #fff; }
+    .brand--inverse .brand__tag { color: var(--c-gold-bright); }
+  </style>
+  <script>
+    // GitHub Pages has no server rewrites, so unknown paths land here.
+    // Redirect the old clean URLs to their query-param equivalents.
+    (function () {
+      var m = location.pathname.match(/^\/(property|location|blog|news)\/([^\/?#]+)\/?$/);
+      if (!m) return;
+      var page = { property: "/property-details.html", location: "/locations.html", blog: "/blog.html", news: "/news.html" }[m[1]];
+      location.replace(page + "?slug=" + encodeURIComponent(m[2]));
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#error-main">Rukia maudhui makuu</a>
+
+  <div class="error-screen">
+    <!-- Brand bar -->
+    <header class="error-top">
+      <div class="container flex-between">
+        <a class="brand brand--inverse" href="/" aria-label="SAM EMPIRE — Nyumbani">
+          <img class="brand__mark" src="/assets/icons/logo.svg" alt="" width="44" height="44" />
+          <span>
+            <span class="brand__name">SAM EMPIRE</span>
+            <span class="brand__tag">Muuzaji wa Viwanja Kigamboni</span>
+          </span>
+        </a>
+        <a class="btn btn-outline-gold btn-sm" href="/">Nyumbani</a>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="error-main" id="error-main">
+      <div class="container">
+        <div class="error-card">
+          <p class="eyebrow is-centered is-light" data-reveal>Hitilafu 404</p>
+
+          <div class="error-code" data-reveal>
+            <span class="error-code__num">404</span>
+            <span class="error-coords">LAT -6.8235 &middot; LON 39.3450 &middot; PLOT NOT FOUND</span>
+          </div>
+
+          <h1 class="error-title" data-reveal data-delay="1">Kiwanja hiki hakipatikani</h1>
+          <p class="error-text" data-reveal data-delay="2">
+            Ukurasa uliouomba umeondolewa, umehamishwa, au haukuwepo kabisa.
+            Lakini usijali &mdash; viwanja vyetu vilivyopimwa Kigamboni bado vinakusubiri.
+            <span class="en">The page you requested could not be found. Use the links below to continue exploring.</span>
+          </p>
+
+          <div class="error-actions" data-reveal data-delay="3">
+            <a class="btn btn-gold btn-lg" href="/">Rudi Nyumbani</a>
+            <a class="btn btn-glass btn-lg" href="/properties.html">Tazama Viwanja</a>
+            <a class="btn btn-whatsapp btn-lg" href="https://wa.me/255689621263" target="_blank" rel="noopener">
+              WhatsApp
+            </a>
+          </div>
+
+          <nav class="error-links" aria-label="Viungo vya haraka" data-reveal data-delay="4">
+            <a class="error-link" href="/locations.html"><span>Maeneo</span><span class="mono">/LOC</span></a>
+            <a class="error-link" href="/gallery.html"><span>Picha</span><span class="mono">/IMG</span></a>
+            <a class="error-link" href="/about.html"><span>Kuhusu</span><span class="mono">/ABT</span></a>
+            <a class="error-link" href="/contact.html"><span>Wasiliana</span><span class="mono">/CTA</span></a>
+            <a class="error-link" href="/faq.html"><span>Maswali</span><span class="mono">/FAQ</span></a>
+          </nav>
+        </div>
+      </div>
+    </main>
+
+    <!-- Foot -->
+    <footer class="error-foot">
+      <div class="container">
+        SAM EMPIRE &copy; <span id="year">2026</span> &middot; Simu
+        <a href="tel:+255689621263">+255 689 621 263</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Reveal-on-load fallback for [data-reveal] when script.js is absent.
+    // (script.js wires the full IntersectionObserver site-wide; this guarantees
+    //  the standalone error page animates even before that module exists.)
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var nodes = document.querySelectorAll("[data-reveal]");
+      if (reduce) { nodes.forEach(function (n) { n.classList.add("is-visible"); }); return; }
+      requestAnimationFrame(function () {
+        nodes.forEach(function (n) { n.classList.add("is-visible"); });
+      });
+    })();
+
+    // Register the service worker so the offline shell stays available.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/service-worker.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Jisajili &mdash; SAM EMPIRE</title>
+  <meta name="description" content="Fungua akaunti ya SAM EMPIRE bila malipo ili kuhifadhi viwanja unavyopenda, kufuatilia maombi, na kupata taarifa za viwanja vipya." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#081F4D" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/responsive.css" />
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("sam:theme");
+        var saved = raw ? JSON.parse(raw) : null;
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .auth-wrap { min-height: calc(100vh - var(--header-h) - 120px); display: grid; place-items: center; padding: var(--s-9) var(--gutter); }
+    .auth-card { width: 100%; max-width: 460px; padding: clamp(var(--s-6), 4vw, var(--s-9)); border: 1px solid var(--border); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-lg); }
+    .auth-seal { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; text-align: center; color: var(--c-navy-900); margin: 0 auto var(--s-4); background: radial-gradient(circle at 32% 28%, #F3DE94 0%, #E8C75A 26%, #D4AF37 55%, #B8932B 100%); box-shadow: 0 8px 18px rgba(212,175,55,0.4), inset 0 2px 3px rgba(255,255,255,0.7), inset 0 -3px 6px rgba(122,92,18,0.5); }
+    .auth-seal span { font-family: var(--font-mono); font-size: 0.4rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; }
+    .auth-divider { display: flex; align-items: center; gap: var(--s-3); margin: var(--s-6) 0; color: var(--text-faint); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+    .auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .btn-google { width: 100%; justify-content: center; background: var(--surface); border: 1px solid var(--border-strong); color: var(--text); font-weight: 600; }
+    .btn-google:hover { border-color: var(--c-gold); }
+    .auth-foot { text-align: center; margin-top: var(--s-6); font-size: var(--fs-sm); color: var(--text-muted); }
+    .auth-foot a { color: var(--c-gold-deep); font-weight: 700; }
+  </style>
+</head>
+
+<body data-page="" data-header="solid">
+  <main id="main">
+    <div class="auth-wrap">
+      <div class="auth-card" data-reveal>
+        <span class="auth-seal" aria-hidden="true"><span>SAM<br/>EMPIRE</span></span>
+        <h1 class="text-center" style="font-size:var(--fs-2xl)">Fungua Akaunti</h1>
+        <p class="text-center text-muted mt-2 mb-6">Bila malipo — hifadhi viwanja na fuatilia maombi yako</p>
+
+        <div class="notice mb-6" id="auth-notice" hidden style="border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:var(--s-4);text-align:center;color:var(--text-muted);font-size:var(--fs-sm)">
+          Usajili utafanya kazi baada ya Firebase kusanidiwa. Kwa sasa, wasiliana nasi kupitia WhatsApp.
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <div class="field">
+            <label class="label" for="a-name">Jina Kamili</label>
+            <input class="input" id="a-name" type="text" maxlength="120" placeholder="Jina lako" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label class="label" for="a-email">Barua Pepe</label>
+            <input class="input" id="a-email" type="email" placeholder="barua@pepe.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label class="label" for="a-phone">Simu <span class="text-faint">(hiari)</span></label>
+            <input class="input" id="a-phone" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label class="label" for="a-password">Nenosiri</label>
+            <input class="input" id="a-password" type="password" placeholder="Herufi 6 au zaidi" autocomplete="new-password" />
+          </div>
+          <button class="btn btn-gold btn-lg btn-block" id="a-submit" type="button">Jisajili</button>
+        </div>
+
+        <div class="auth-divider">au</div>
+        <button class="btn btn-google btn-lg" id="a-google" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 01-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.8H1.8v3C3.7 21.3 7.5 24 12 24z"/><path fill="#FBBC05" d="M5.6 14.6a7.2 7.2 0 010-4.6v-3H1.8a12 12 0 000 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 1.2 15.1 0 12 0 7.5 0 3.7 2.7 1.8 6.6l3.8 3C6.5 6.8 9 4.8 12 4.8z"/></svg>
+          Endelea na Google
+        </button>
+
+        <p class="auth-foot">Una akaunti tayari? <a href="/login.html">Ingia hapa</a></p>
+        <p class="hint text-center mt-3">Kwa kujisajili, unakubali <a href="/terms.html" style="color:var(--c-gold-deep)">Vigezo</a> na <a href="/privacy.html" style="color:var(--c-gold-deep)">Sera ya Faragha</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/assets/js/partials.js"></script>
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/auth.js"></script>
+</body>
+</html>

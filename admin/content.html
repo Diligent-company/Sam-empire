@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maudhui ya Kurasa — SAM EMPIRE Admin</title><meta name="robots" content="noindex, nofollow" /><meta name="theme-color" content="#081F4D" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/animations.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+<script>(function(){try{var r=localStorage.getItem("sam:theme");document.documentElement.setAttribute("data-theme",r?JSON.parse(r):"light");}catch(e){}})();</script>
+<style>
+  .stat-edit { display: grid; grid-template-columns: 130px 1fr; gap: var(--s-3); align-items: end; }
+  @media (max-width: 640px) { .stat-edit { grid-template-columns: 1fr; } }
+  .seo-row { display: grid; grid-template-columns: 130px 1fr 1.4fr; gap: var(--s-3); align-items: center; padding: var(--s-3) 0; border-bottom: 1px solid var(--border); }
+  @media (max-width: 760px) { .seo-row { grid-template-columns: 1fr; align-items: start; } }
+  .seo-row:last-child { border-bottom: 0; }
+  .seo-row > b { font-size: var(--fs-sm); }
+</style>
+</head>
+<body data-page="content" data-title="Maudhui ya Kurasa">
+  <div class="admin-gate" id="admin-gate"><div class="admin-loading"><span class="spinner" style="width:40px;height:40px"></span></div></div>
+  <div class="admin-shell" id="admin-shell" hidden>
+    <div class="admin-main">
+      <div class="admin-content" id="admin-content">
+
+        <p class="text-muted mb-6">Hariri maandishi ya kurasa za tovuti bila kugusa msimbo. Ukiacha sehemu yoyote tupu, maandishi ya msingi ya tovuti yatabaki — hivyo hakuna kitakachovunjika.</p>
+
+        <!-- HOMEPAGE -->
+        <div class="panel mb-6">
+          <div class="panel__head"><h2>Ukurasa wa Mwanzo — Hero</h2><button class="btn btn-gold btn-sm" id="save-home" type="button">Hifadhi</button></div>
+          <div class="panel__body admin-form">
+            <div class="field"><label class="label">Kichwa cha Hero</label>
+              <div class="row3">
+                <input class="input" id="h-titlePre" placeholder="Mmiliki" aria-label="Sehemu ya kwanza" />
+                <input class="input" id="h-titleEm" placeholder="Kiwanja (neno la dhahabu)" aria-label="Neno la dhahabu" />
+                <input class="input" id="h-titleTail" placeholder="Chako Halali Kigamboni" aria-label="Sehemu ya mwisho" />
+              </div>
+              <p class="hint">Kichwa kimegawanywa sehemu tatu; ya kati huonekana kwa rangi ya dhahabu.</p>
+            </div>
+            <div class="field"><label class="label" for="h-sub">Maelezo ya Hero</label><textarea class="textarea" id="h-sub" rows="3" placeholder="Viwanja vilivyopimwa, vyenye hati safi na kuidhinishwa na serikali…"></textarea></div>
+
+            <label class="label">Takwimu (Statistics)</label>
+            <div class="stat-edit"><div class="field"><label class="label" for="s1v">Takwimu 1</label><input class="input" id="s1v" placeholder="500+" /></div><div class="field"><label class="label" for="s1l">Maelezo</label><input class="input" id="s1l" placeholder="Viwanja Vilivyouzwa" /></div></div>
+            <div class="stat-edit"><div class="field"><label class="label" for="s2v">Takwimu 2</label><input class="input" id="s2v" placeholder="12" /></div><div class="field"><label class="label" for="s2l">Maelezo</label><input class="input" id="s2l" placeholder="Maeneo Kigamboni" /></div></div>
+            <div class="stat-edit"><div class="field"><label class="label" for="s3v">Takwimu 3</label><input class="input" id="s3v" placeholder="1200+" /></div><div class="field"><label class="label" for="s3l">Maelezo</label><input class="input" id="s3l" placeholder="Wateja Wenye Furaha" /></div></div>
+            <div class="stat-edit"><div class="field"><label class="label" for="s4v">Takwimu 4</label><input class="input" id="s4v" placeholder="8" /></div><div class="field"><label class="label" for="s4l">Maelezo</label><input class="input" id="s4l" placeholder="Miaka ya Uzoefu" /></div></div>
+            <p class="hint">Andika namba pamoja na alama yake, mfano: <strong>500+</strong>. Takwimu hizi pia zinaonekana kwenye ukurasa wa Kuhusu.</p>
+          </div>
+        </div>
+
+        <!-- ABOUT -->
+        <div class="panel mb-6">
+          <div class="panel__head"><h2>Ukurasa wa Kuhusu Sisi</h2><button class="btn btn-gold btn-sm" id="save-about" type="button">Hifadhi</button></div>
+          <div class="panel__body admin-form">
+            <div class="field"><label class="label" for="a-heading">Kichwa cha Historia</label><input class="input" id="a-heading" placeholder="Safari ya Kuaminika katika Ardhi" /></div>
+            <div class="field"><label class="label" for="a-p1">Aya ya Kwanza</label><textarea class="textarea" id="a-p1" rows="3"></textarea></div>
+            <div class="field"><label class="label" for="a-p2">Aya ya Pili</label><textarea class="textarea" id="a-p2" rows="3"></textarea></div>
+            <div class="row2">
+              <div class="field"><label class="label" for="a-mt">Kichwa cha Dhamira</label><input class="input" id="a-mt" placeholder="Kurahisisha Umiliki wa Ardhi" /></div>
+              <div class="field"><label class="label" for="a-vt">Kichwa cha Maono</label><input class="input" id="a-vt" placeholder="Kuwa Namba Moja Kigamboni" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label class="label" for="a-mx">Maelezo ya Dhamira</label><textarea class="textarea" id="a-mx" rows="3"></textarea></div>
+              <div class="field"><label class="label" for="a-vx">Maelezo ya Maono</label><textarea class="textarea" id="a-vx" rows="3"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="panel mb-6">
+          <div class="panel__head"><h2>Footer (Kurasa Zote)</h2><button class="btn btn-gold btn-sm" id="save-global" type="button">Hifadhi</button></div>
+          <div class="panel__body admin-form">
+            <div class="field"><label class="label" for="g-footerAbout">Maelezo Mafupi ya Kampuni (footer)</label><textarea class="textarea" id="g-footerAbout" rows="3" placeholder="Tunauza viwanja vilivyopimwa na kuidhinishwa na serikali Kigamboni…"></textarea></div>
+            <p class="hint">Jina la kampuni, simu, barua pepe na mitandao ya kijamii vinahaririwa kwenye ukurasa wa <a href="/admin/settings.html" style="color:var(--c-gold-deep);font-weight:600">Mipangilio</a>.</p>
+          </div>
+        </div>
+
+        <!-- SEO -->
+        <div class="panel">
+          <div class="panel__head"><h2>SEO — Kichwa na Maelezo ya Kurasa</h2><button class="btn btn-gold btn-sm" id="save-seo" type="button">Hifadhi</button></div>
+          <div class="panel__body">
+            <p class="hint mb-4">Haya ndiyo yanayoonekana kwenye Google na unaposhiriki kiungo. Acha tupu kutumia ya msingi.</p>
+            <div id="seo-rows"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/admin-core.js"></script>
+  <script type="module" src="/assets/js/admin-content.js"></script>
+</body>
+</html>

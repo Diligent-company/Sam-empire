@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Akaunti Yangu &mdash; SAM EMPIRE</title>
+  <meta name="description" content="Dashibodi yako ya SAM EMPIRE — viwanja ulivyohifadhi, utafutaji, maombi na mipangilio ya wasifu." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#081F4D" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/animations.css" />
+  <link rel="stylesheet" href="/assets/css/responsive.css" />
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("sam:theme");
+        var saved = raw ? JSON.parse(raw) : null;
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .dash-grid { display: grid; grid-template-columns: 280px 1fr; gap: var(--s-8); align-items: start; }
+    @media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
+    .dash-side { position: sticky; top: calc(var(--header-h) + 16px); }
+    @media (max-width: 900px) { .dash-side { position: static; } }
+    .user-card { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-5); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }
+    .user-avatar { width: 52px; height: 52px; border-radius: 50%; flex: none; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); color: var(--c-navy-900); background: var(--grad-gold); }
+    .dash-nav { display: flex; flex-direction: column; gap: 4px; margin-top: var(--s-5); }
+    .dash-nav button { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3) var(--s-4); border-radius: var(--r-md); color: var(--text-muted); font-weight: 600; font-size: var(--fs-sm); text-align: left; transition: all var(--t-fast) var(--ease); }
+    .dash-nav button:hover { background: var(--surface-3); color: var(--text); }
+    .dash-nav button.is-active { background: var(--c-navy); color: #fff; }
+    .dash-nav button.is-active svg { color: var(--c-gold); }
+    .dash-nav svg { flex: none; color: var(--text-faint); }
+    .dash-sec { display: none; }
+    .dash-sec.is-active { display: block; animation: fadeIn var(--t-base) var(--ease); }
+    .stat-card { padding: var(--s-6); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }
+    .stat-card strong { display: block; font-family: var(--font-display); font-size: var(--fs-2xl); color: var(--c-gold-deep); }
+    .stat-card span { font-size: var(--fs-sm); color: var(--text-muted); }
+    .list-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); padding: var(--s-4) var(--s-5); border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface); margin-bottom: var(--s-3); flex-wrap: wrap; }
+    .empty-mini { border: 1px dashed var(--border-strong); border-radius: var(--r-lg); padding: var(--s-8); text-align: center; color: var(--text-muted); }
+    .property-card__fav.is-compare.is-active { background: var(--c-gold); color: var(--c-navy-900); border-color: var(--c-gold); }
+  </style>
+</head>
+
+<body data-page="" data-header="solid">
+  <main id="main">
+    <!-- Gate: shown when not signed in -->
+    <div id="dash-gate" class="container container-narrow section text-center" hidden>
+      <span class="auth-seal" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto var(--s-5);color:var(--c-navy-900);background:radial-gradient(circle at 32% 28%,#F3DE94,#D4AF37 60%,#B8932B)"><span style="font-family:var(--font-mono);font-size:.44rem;font-weight:700;line-height:1.2">SAM<br/>EMPIRE</span></span>
+      <h1>Ingia Kuendelea</h1>
+      <p class="text-muted mt-3" style="max-width:44ch;margin-inline:auto">Unahitaji kuingia kwenye akaunti yako kuona dashibodi, viwanja pendwa na maombi yako.</p>
+      <div class="flex-center gap-3 mt-6 wrap">
+        <a class="btn btn-gold" href="/login.html?next=/account.html">Ingia</a>
+        <a class="btn btn-outline" href="/register.html?next=/account.html">Jisajili</a>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <section class="section" id="dash-main" hidden>
+      <div class="container container-wide">
+        <div class="dash-grid">
+          <!-- Sidebar -->
+          <aside class="dash-side">
+            <div class="user-card">
+              <span class="user-avatar" id="u-avatar" aria-hidden="true">S</span>
+              <div style="min-width:0">
+                <div class="fw-bold" data-user-name style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Mteja</div>
+                <div class="text-xs text-faint" data-user-email style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+              </div>
+            </div>
+            <nav class="dash-nav" aria-label="Dashibodi">
+              <button data-sec="overview" class="is-active"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>Muhtasari</button>
+              <button data-sec="favorites"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 21s-7-4.6-9.2-8.4C1.2 9.3 2.6 6 6 6c2 0 3.2 1.2 4 2.3C10.8 7.2 12 6 14 6c3.4 0 4.8 3.3 3.2 6.6C19 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Viwanja Pendwa</button>
+              <button data-sec="searches"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Utafutaji</button>
+              <button data-sec="requests"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Maombi Yangu</button>
+              <button data-sec="profile"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21a8 8 0 0116 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Wasifu</button>
+              <button id="dash-signout" style="color:var(--c-danger)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Toka</button>
+            </nav>
+          </aside>
+
+          <!-- Content -->
+          <div class="dash-content">
+            <!-- Overview -->
+            <div class="dash-sec is-active" id="sec-overview">
+              <h1 class="mb-2">Karibu, <span data-user-name>Mteja</span>!</h1>
+              <p class="text-muted mb-6">Hii hapa ni dashibodi yako ya SAM EMPIRE.</p>
+              <div class="grid grid-3">
+                <div class="stat-card"><strong id="stat-fav">0</strong><span>Viwanja Pendwa</span></div>
+                <div class="stat-card"><strong id="stat-search">0</strong><span>Utafutaji Uliohifadhi</span></div>
+                <div class="stat-card"><strong id="stat-since" style="font-size:var(--fs-lg)">—</strong><span>Mwanachama Tangu</span></div>
+              </div>
+              <div class="card mt-6"><div class="card-body flex-between wrap gap-4">
+                <div><h3 class="h5">Tafuta Kiwanja Kipya</h3><p class="text-sm text-muted mt-1">Vinjari viwanja vilivyopimwa Kigamboni.</p></div>
+                <a class="btn btn-gold" href="/properties.html">Tazama Viwanja</a>
+              </div></div>
+            </div>
+
+            <!-- Favorites -->
+            <div class="dash-sec" id="sec-favorites">
+              <div class="flex-between wrap gap-3 mb-6"><h2>Viwanja Pendwa</h2></div>
+              <div class="grid grid-3" id="fav-grid"></div>
+              <div class="empty-mini" id="fav-empty" hidden>
+                <p>Hujahifadhi kiwanja chochote bado. Bonyeza alama ya moyo kwenye kiwanja kukihifadhi.</p>
+                <a class="btn btn-outline-gold mt-4" href="/properties.html">Vinjari Viwanja</a>
+              </div>
+            </div>
+
+            <!-- Saved searches -->
+            <div class="dash-sec" id="sec-searches">
+              <h2 class="mb-6">Utafutaji Uliohifadhi</h2>
+              <div id="search-list"></div>
+              <div class="empty-mini" id="search-empty" hidden>
+                <p>Hujahifadhi utafutaji wowote. Unapotafuta viwanja, unaweza kuhifadhi vigezo vyako kwa matumizi ya baadaye.</p>
+                <a class="btn btn-outline-gold mt-4" href="/properties.html">Anza Kutafuta</a>
+              </div>
+            </div>
+
+            <!-- Requests -->
+            <div class="dash-sec" id="sec-requests">
+              <h2 class="mb-6">Maombi Yangu</h2>
+              <div id="req-list"></div>
+              <div class="empty-mini" id="req-empty" hidden>
+                <p>Bado huna maombi. Unapopanga ziara au kuhifadhi kiwanja, yataonekana hapa.</p>
+                <a class="btn btn-outline-gold mt-4" href="/properties.html">Tazama Viwanja</a>
+              </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="dash-sec" id="sec-profile">
+              <h2 class="mb-6">Wasifu Wangu</h2>
+              <div class="card" style="max-width:520px"><div class="card-body flex flex-col gap-4">
+                <div class="field"><label class="label" for="p-name">Jina Kamili</label><input class="input" id="p-name" type="text" maxlength="120" autocomplete="name" /></div>
+                <div class="field"><label class="label" for="p-email">Barua Pepe</label><input class="input" id="p-email" type="email" disabled /></div>
+                <div class="field"><label class="label" for="p-phone">Simu</label><input class="input" id="p-phone" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" /></div>
+                <button class="btn btn-gold" id="p-save" type="button">Hifadhi Mabadiliko</button>
+              </div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/assets/js/partials.js"></script>
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/account.js"></script>
+</body>
+</html>
