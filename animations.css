@@ -1,0 +1,202 @@
+/* =============================================================================
+   SAM EMPIRE — animations.css
+   Orchestrated motion: page-load reveals, scroll triggers, counters,
+   parallax, hover micro-interactions, loader, shimmer skeletons.
+   All effects collapse gracefully under prefers-reduced-motion.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   KEYFRAMES
+   -------------------------------------------------------------------------- */
+@keyframes fade-in        { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-up        { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-down      { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-left      { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fade-right     { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes zoom-in        { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes blur-in        { from { opacity: 0; filter: blur(14px); } to { opacity: 1; filter: blur(0); } }
+@keyframes float-y        { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes pulse-ring     { 0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.45); } 70% { box-shadow: 0 0 0 16px rgba(212,175,55,0); } 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); } }
+@keyframes spin           { to { transform: rotate(360deg); } }
+@keyframes shimmer        { 0% { background-position: -468px 0; } 100% { background-position: 468px 0; } }
+@keyframes line-grow      { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes gold-sweep     { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+@keyframes bob            { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@keyframes loader-bars    { 0%,100% { transform: scaleY(0.4); opacity: 0.6; } 50% { transform: scaleY(1); opacity: 1; } }
+@keyframes loader-fade    { to { opacity: 0; visibility: hidden; } }
+@keyframes ken-burns      { 0% { transform: scale(1) translate(0,0); } 100% { transform: scale(1.12) translate(-1.5%, -1.5%); } }
+@keyframes count-pop      { 0% { transform: scale(0.9); } 60% { transform: scale(1.04); } 100% { transform: scale(1); } }
+@keyframes marquee        { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* -----------------------------------------------------------------------------
+   SCROLL REVEAL — toggled by IntersectionObserver in script.js (.is-visible)
+   -------------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+  will-change: opacity, transform;
+}
+[data-reveal="left"]  { transform: translateX(-36px); }
+[data-reveal="right"] { transform: translateX(36px); }
+[data-reveal="zoom"]  { transform: scale(0.94); }
+[data-reveal="blur"]  { filter: blur(12px); }
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+/* Stagger via inline --reveal-delay set by JS, or these helpers */
+[data-reveal][data-delay="1"] { transition-delay: 80ms; }
+[data-reveal][data-delay="2"] { transition-delay: 160ms; }
+[data-reveal][data-delay="3"] { transition-delay: 240ms; }
+[data-reveal][data-delay="4"] { transition-delay: 320ms; }
+[data-reveal][data-delay="5"] { transition-delay: 400ms; }
+[data-reveal][data-delay="6"] { transition-delay: 480ms; }
+
+/* -----------------------------------------------------------------------------
+   PAGE-LOAD SEQUENCE (hero) — applied once body has .is-loaded
+   -------------------------------------------------------------------------- */
+.is-loaded .anim-load    { animation: fade-up var(--t-slow) var(--ease) both; }
+.is-loaded .anim-load-1  { animation: fade-up 0.7s var(--ease) 0.05s both; }
+.is-loaded .anim-load-2  { animation: fade-up 0.7s var(--ease) 0.18s both; }
+.is-loaded .anim-load-3  { animation: fade-up 0.7s var(--ease) 0.31s both; }
+.is-loaded .anim-load-4  { animation: fade-up 0.7s var(--ease) 0.44s both; }
+.is-loaded .anim-blur    { animation: blur-in 1s var(--ease) 0.1s both; }
+
+/* Animated underline that draws in under headlines */
+.anim-underline { position: relative; display: inline-block; }
+.anim-underline::after {
+  content: ""; position: absolute; left: 0; bottom: -0.18em;
+  width: 100%; height: 3px; border-radius: 2px;
+  background: var(--grad-gold);
+  transform: scaleX(0); transform-origin: left;
+}
+.is-loaded .anim-underline::after,
+.is-visible.anim-underline::after { animation: line-grow 0.8s var(--ease) 0.5s both; }
+
+/* -----------------------------------------------------------------------------
+   HOVER MICRO-INTERACTIONS
+   -------------------------------------------------------------------------- */
+.hover-lift { transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease); }
+.hover-lift:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+.hover-zoom { overflow: hidden; }
+.hover-zoom img { transition: transform var(--t-slow) var(--ease); }
+.hover-zoom:hover img { transform: scale(1.07); }
+
+.hover-gold { transition: color var(--t-fast) var(--ease); }
+.hover-gold:hover { color: var(--c-gold-deep); }
+
+.link-underline { position: relative; }
+.link-underline::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; width: 100%; height: 2px;
+  background: var(--c-gold); transform: scaleX(0); transform-origin: right;
+  transition: transform var(--t-base) var(--ease);
+}
+.link-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* Ambient float / pulse */
+.float { animation: float-y 5s var(--ease-in-out) infinite; }
+.pulse { animation: pulse-ring 2.2s var(--ease-in-out) infinite; }
+.bob   { animation: bob 2.4s var(--ease-in-out) infinite; }
+
+/* Animated gold gradient sweep (e.g., live "verified" shimmer) */
+.gold-sweep {
+  background: linear-gradient(90deg, var(--c-gold-deep), var(--c-gold-bright), var(--c-gold-deep));
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gold-sweep 3.5s linear infinite;
+}
+
+/* -----------------------------------------------------------------------------
+   PARALLAX
+   -------------------------------------------------------------------------- */
+.parallax { will-change: transform; }                     /* JS translates on scroll */
+.ken-burns { animation: ken-burns 18s ease-out both; }     /* slow hero zoom */
+
+/* -----------------------------------------------------------------------------
+   COUNTERS
+   -------------------------------------------------------------------------- */
+.counter.is-counting { animation: count-pop 0.5s var(--ease) both; }
+
+/* -----------------------------------------------------------------------------
+   LOADING SCREEN
+   -------------------------------------------------------------------------- */
+.loader {
+  position: fixed; inset: 0; z-index: var(--z-loader);
+  display: grid; place-items: center;
+  background: var(--grad-navy);
+  transition: opacity var(--t-slow) var(--ease), visibility var(--t-slow) var(--ease);
+}
+.loader.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader__inner { display: flex; flex-direction: column; align-items: center; gap: var(--s-6); }
+.loader__brand {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.6rem, 5vw, 2.4rem); letter-spacing: 0.06em; color: #fff;
+}
+.loader__brand span { color: var(--c-gold); }
+.loader__tag {
+  font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: 0.3em;
+  text-transform: uppercase; color: rgba(212,175,55,0.85);
+}
+.loader__bars { display: flex; gap: 6px; align-items: flex-end; height: 34px; }
+.loader__bars i {
+  width: 5px; height: 100%; border-radius: 3px;
+  background: var(--grad-gold);
+  animation: loader-bars 1s var(--ease-in-out) infinite;
+}
+.loader__bars i:nth-child(2) { animation-delay: 0.12s; }
+.loader__bars i:nth-child(3) { animation-delay: 0.24s; }
+.loader__bars i:nth-child(4) { animation-delay: 0.36s; }
+.loader__bars i:nth-child(5) { animation-delay: 0.48s; }
+
+/* Spinner (buttons / inline) */
+.spinner {
+  width: 1.1em; height: 1.1em; border-radius: 50%;
+  border: 2px solid currentColor; border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+/* -----------------------------------------------------------------------------
+   SKELETON SHIMMER (loading placeholders)
+   -------------------------------------------------------------------------- */
+.skeleton {
+  position: relative; overflow: hidden;
+  background: var(--surface-3); border-radius: var(--r-sm);
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.10) 20%, rgba(255,255,255,0.35) 50%, transparent 80%);
+  background-size: 936px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+[data-theme="dark"] .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.06) 20%, rgba(255,255,255,0.06) 50%, transparent 80%);
+}
+.skeleton-text { height: 0.85em; margin-block: 0.35em; }
+.skeleton-title { height: 1.4em; width: 60%; }
+.skeleton-img { aspect-ratio: 16 / 11; border-radius: var(--r-lg); }
+
+/* -----------------------------------------------------------------------------
+   MARQUEE (partners / location ticker)
+   -------------------------------------------------------------------------- */
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee__track { display: flex; width: max-content; gap: var(--s-9); animation: marquee 30s linear infinite; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+
+/* -----------------------------------------------------------------------------
+   NUMBER / PRICE TICK
+   -------------------------------------------------------------------------- */
+.tick-enter { animation: zoom-in var(--t-base) var(--ease) both; }
+
+/* Reduced motion: neutralise everything decorative */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .float, .pulse, .bob, .gold-sweep, .ken-burns, .marquee__track,
+  .loader__bars i, .spinner, .skeleton::after {
+    animation: none !important;
+  }
+  .loader { display: none !important; }
+}

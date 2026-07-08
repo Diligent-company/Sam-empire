@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="SAM EMPIRE">
+  <defs>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0C2A5E"/>
+      <stop offset="0.55" stop-color="#081F4D"/>
+      <stop offset="1" stop-color="#050F26"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8C75A"/>
+      <stop offset="0.5" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#B8932B"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#navy)"/>
+  <!-- survey corner ticks -->
+  <g stroke="#D4AF37" stroke-width="6" opacity="0.55" stroke-linecap="round">
+    <path d="M70 110 v-40 h40"/>
+    <path d="M442 110 v-40 h-40"/>
+    <path d="M70 402 v40 h40"/>
+    <path d="M442 402 v40 h-40"/>
+  </g>
+  <!-- monogram: stylised SE with a plot-corner motif -->
+  <g fill="none" stroke="url(#gold)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M318 178 q-62 -34 -108 0 q-30 22 0 50 q24 22 86 30 q44 12 0 44 q-46 32 -110 -4"/>
+  </g>
+  <path d="M196 326 h120" stroke="url(#gold)" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="172" fill="none" stroke="#D4AF37" stroke-width="3" opacity="0.4"/>
+</svg>

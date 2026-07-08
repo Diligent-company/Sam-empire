@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="light">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mipangilio — SAM EMPIRE Admin</title><meta name="robots" content="noindex, nofollow" /><meta name="theme-color" content="#081F4D" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/animations.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+<script>(function(){try{var r=localStorage.getItem("sam:theme");document.documentElement.setAttribute("data-theme",r?JSON.parse(r):"light");}catch(e){}})();</script>
+</head>
+<body data-page="settings" data-title="Mipangilio">
+  <div class="admin-gate" id="admin-gate"><div class="admin-loading"><span class="spinner" style="width:40px;height:40px"></span></div></div>
+  <div class="admin-shell" id="admin-shell" hidden>
+    <div class="admin-main">
+      <div class="admin-content" id="admin-content">
+
+        <div id="not-super" class="panel" hidden><div class="panel__body text-center" style="padding:var(--s-9)">
+          <h3>Ruhusa ya Superadmin Inahitajika</h3>
+          <p class="text-muted mt-2">Mipangilio ya tovuti inaweza kubadilishwa na msimamizi mkuu (superadmin) pekee.</p>
+        </div></div>
+
+        <div id="settings-form">
+          <div class="panel mb-6">
+            <div class="panel__head"><h2>Chapa na Mawasiliano</h2></div>
+            <div class="panel__body admin-form">
+              <div class="row2">
+                <div class="field"><label class="label" for="st-name">Jina la Kampuni</label><input class="input" id="st-name" /></div>
+                <div class="field"><label class="label" for="st-tagline">Kauli Mbiu</label><input class="input" id="st-tagline" /></div>
+              </div>
+              <div class="row3">
+                <div class="field"><label class="label" for="st-phone">Simu</label><input class="input" id="st-phone" placeholder="+255 6XX XXX XXX" /></div>
+                <div class="field"><label class="label" for="st-whatsapp">WhatsApp (bila +)</label><input class="input" id="st-whatsapp" placeholder="255689621263" /></div>
+                <div class="field"><label class="label" for="st-email">Barua Pepe Kuu</label><input class="input" id="st-email" type="email" /></div>
+              </div>
+              <div class="row3">
+                <div class="field"><label class="label" for="st-sales">Barua Pepe ya Mauzo</label><input class="input" id="st-sales" type="email" /></div>
+                <div class="field"><label class="label" for="st-support">Barua Pepe ya Msaada</label><input class="input" id="st-support" type="email" /></div>
+                <div class="field"></div>
+              </div>
+              <div class="row2">
+                <div class="field"><label class="label" for="st-city">Jiji</label><input class="input" id="st-city" /></div>
+                <div class="field"><label class="label" for="st-region">Mkoa</label><input class="input" id="st-region" /></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel mb-6">
+            <div class="panel__head"><h2>Mitandao ya Kijamii</h2></div>
+            <div class="panel__body admin-form">
+              <div class="row2">
+                <div class="field"><label class="label" for="so-facebook">Facebook</label><input class="input" id="so-facebook" /></div>
+                <div class="field"><label class="label" for="so-instagram">Instagram</label><input class="input" id="so-instagram" /></div>
+              </div>
+              <div class="row2">
+                <div class="field"><label class="label" for="so-youtube">YouTube</label><input class="input" id="so-youtube" /></div>
+                <div class="field"><label class="label" for="so-tiktok">TikTok</label><input class="input" id="so-tiktok" /></div>
+              </div>
+              <div class="row2">
+                <div class="field"><label class="label" for="so-x">X (Twitter)</label><input class="input" id="so-x" /></div>
+                <div class="field"><label class="label" for="so-linkedin">LinkedIn</label><input class="input" id="so-linkedin" /></div>
+              </div>
+              <div class="field"><label class="label" for="so-telegram">Telegram</label><input class="input" id="so-telegram" /></div>
+            </div>
+          </div>
+
+          <div class="panel mb-6">
+            <div class="panel__head"><h2>Ramani (Google Maps)</h2></div>
+            <div class="panel__body admin-form">
+              <div class="field"><label class="label" for="st-mapskey">Google Maps API Key</label><input class="input" id="st-mapskey" placeholder="AIza…" /></div>
+              <p class="hint">Hii inatumika kwenye ramani za tovuti ya umma. Ikiwa haipo, ramani zitaonyesha muundo mbadala.</p>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-3">
+            <button class="btn btn-gold btn-lg" id="st-save" type="button">Hifadhi Mipangilio</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+  <script type="module" src="/assets/js/script.js"></script>
+  <script type="module" src="/assets/js/admin-core.js"></script>
+  <script type="module" src="/assets/js/admin-settings.js"></script>
+</body>
+</html>

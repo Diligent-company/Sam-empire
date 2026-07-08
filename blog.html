@@ -1,89 +1,66 @@
 <!DOCTYPE html>
 <html lang="sw" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Blogu &mdash; SAM EMPIRE</title>
-  <meta name="description" content="Makala, ushauri na miongozo kuhusu ununuzi wa viwanja na uwekezaji wa ardhi Kigamboni kutoka SAM EMPIRE." />
-  <meta name="theme-color" content="#081F4D" />
-  <link rel="canonical" href="https://samempire.co.tz/blog.html" />
-  <meta id="og-title" property="og:title" content="Blogu — SAM EMPIRE" />
-  <meta id="og-desc" property="og:description" content="Makala na miongozo kuhusu viwanja Kigamboni." />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="SAM EMPIRE" />
-  <meta property="og:image" content="https://samempire.co.tz/assets/img/og-image.png" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
-  <link rel="stylesheet" href="/assets/css/animations.css" />
-  <link rel="stylesheet" href="/assets/css/responsive.css" />
-  <script>
-    (function () {
-      try {
-        var raw = localStorage.getItem("sam:theme");
-        var saved = raw ? JSON.parse(raw) : null;
-        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
-      } catch (e) {}
-    })();
-  </script>
-  <style>
-    .post-card { display: flex; flex-direction: column; overflow: hidden; }
-    .post-card__media { aspect-ratio: 16/10; background: var(--grad-navy); position: relative; overflow: hidden; }
-    .post-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow) var(--ease); }
-    .post-card:hover .post-card__media img { transform: scale(1.05); }
-    .post-card__tag { position: absolute; top: var(--s-3); left: var(--s-3); }
-    .post-card__date { font-family: var(--font-mono); font-size: var(--fs-2xs); color: var(--text-faint); letter-spacing: 0.08em; text-transform: uppercase; }
-    .icon-action { width: 42px; height: 42px; border-radius: var(--r-sm); display: grid; place-items: center; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); transition: all var(--t-fast) var(--ease); }
-    .icon-action:hover { border-color: var(--c-gold); color: var(--c-gold-deep); transform: translateY(-2px); }
-    .article-body { font-size: var(--fs-md); line-height: var(--lh-loose); color: var(--text-muted); }
-    .article-body h3 { margin: var(--s-7) 0 var(--s-3); font-size: var(--fs-lg); color: var(--text); }
-    .article-body p { margin-bottom: var(--s-4); }
-    .article-body ul { margin: var(--s-3) 0 var(--s-4) var(--s-5); list-style: disc; }
-    .article-body li { margin-bottom: var(--s-2); }
-    .article-body a { color: var(--c-gold-deep); font-weight: 600; }
-  </style>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blogu — SAM EMPIRE Admin</title><meta name="robots" content="noindex, nofollow" /><meta name="theme-color" content="#081F4D" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/css/style.css" /><link rel="stylesheet" href="/assets/css/animations.css" /><link rel="stylesheet" href="/assets/css/admin.css" />
+<script>(function(){try{var r=localStorage.getItem("sam:theme");document.documentElement.setAttribute("data-theme",r?JSON.parse(r):"light");}catch(e){}})();</script>
+<style>.cover-drop{border:2px dashed var(--border-strong);border-radius:var(--r-lg);padding:var(--s-6);text-align:center;color:var(--text-muted);cursor:pointer}.cover-drop.is-drag{border-color:var(--c-gold);background:var(--c-warning-soft)}.cover-preview{width:100%;max-width:340px;border-radius:var(--r-md);border:1px solid var(--border);margin-top:var(--s-3)}</style>
 </head>
+<body data-page="blog" data-title="Blogu" data-collection="blog">
+  <div class="admin-gate" id="admin-gate"><div class="admin-loading"><span class="spinner" style="width:40px;height:40px"></span></div></div>
+  <div class="admin-shell" id="admin-shell" hidden>
+    <div class="admin-main">
+      <div class="admin-content" id="admin-content">
 
-<body data-page="blog" data-collection="blog" data-header="solid">
-  <main id="main">
-    <section class="page-banner">
-      <div class="container container-wide page-banner__inner">
-        <nav class="crumbs" id="c-crumbs" aria-label="Njia ya ukurasa"><a href="/">Nyumbani</a><span class="is-current">Blogu</span></nav>
-        <h1 class="mt-3" id="c-h1">Blogu ya SAM EMPIRE</h1>
-        <p class="mt-3" id="c-sub">Makala, ushauri na miongozo kuhusu ununuzi wa viwanja na uwekezaji Kigamboni.</p>
-      </div>
-    </section>
-
-    <div id="list-view" hidden>
-      <section class="section">
-        <div class="container container-wide">
-          <div class="grid grid-3" id="articles-grid">
-            <div class="card-skeleton skeleton" style="height:360px"></div>
-            <div class="card-skeleton skeleton" style="height:360px"></div>
-            <div class="card-skeleton skeleton" style="height:360px"></div>
+        <div id="list-view">
+          <div class="admin-toolbar">
+            <input class="input" id="art-search" type="search" placeholder="Tafuta makala…" />
+            <select class="select" id="art-status"><option value="">Hali zote</option><option value="published">Imechapishwa</option><option value="draft">Rasimu</option></select>
+            <div class="admin-toolbar__spacer"></div>
+            <button class="btn btn-gold" id="art-add" type="button">+ Andika Makala</button>
           </div>
+          <div class="panel"><div class="atable-wrap"><table class="atable">
+            <thead><tr><th></th><th>Kichwa</th><th>Kategoria</th><th>Hali</th><th>Tarehe</th><th></th></tr></thead>
+            <tbody id="art-tbody"><tr><td colspan="6" class="text-center text-muted" style="padding:var(--s-8)">Inapakia…</td></tr></tbody>
+          </table></div></div>
         </div>
-      </section>
+
+        <div id="editor-view" hidden>
+          <div class="flex-between mb-5 wrap gap-3">
+            <h2 id="editor-title">Makala Mpya</h2>
+            <div class="flex gap-2"><button class="btn btn-ghost" id="e-cancel" type="button">Ghairi</button><button class="btn btn-gold" id="e-save" type="button">Hifadhi</button></div>
+          </div>
+          <div class="panel"><div class="panel__body admin-form">
+            <div class="field"><label class="label" for="e-title">Kichwa cha Habari *</label><input class="input" id="e-title" maxlength="160" /></div>
+            <div class="row2">
+              <div class="field"><label class="label" for="e-category">Kategoria</label><input class="input" id="e-category" placeholder="Uwekezaji, Ushauri, Tangazo…" /></div>
+              <div class="field"><label class="label" for="e-status">Hali</label><select class="select" id="e-status"><option value="draft">Rasimu</option><option value="published">Chapisha</option></select></div>
+            </div>
+            <div class="field"><label class="label" for="e-excerpt">Muhtasari Mfupi</label><textarea class="textarea" id="e-excerpt" rows="2" maxlength="220" placeholder="Sentensi 1-2 zitakazoonekana kwenye orodha…"></textarea></div>
+            <div class="field">
+              <label class="label">Picha ya Jalada</label>
+              <div class="cover-drop" id="cover-drop">
+                <p><strong>Bofya au buruta picha hapa</strong></p>
+                <p class="hint">Itabanwa na kuwekwa alama ya maji kiotomatiki</p>
+                <input type="file" id="cover-file" accept="image/*" hidden />
+              </div>
+              <img id="cover-preview" class="cover-preview" hidden alt="Jalada" />
+              <div id="cover-upl" class="text-xs text-muted mt-2"></div>
+            </div>
+            <div class="field"><label class="label" for="e-content">Maudhui (HTML inaruhusiwa: &lt;p&gt;, &lt;h3&gt;, &lt;ul&gt;&lt;li&gt;, &lt;a&gt;)</label><textarea class="textarea" id="e-content" rows="14" placeholder="&lt;p&gt;Andika makala yako hapa…&lt;/p&gt;"></textarea></div>
+          </div></div>
+        </div>
+
+      </div>
     </div>
-
-    <div id="article-view" hidden><div id="article-root"></div></div>
-
-    <div id="content-missing" class="container container-narrow section text-center" hidden>
-      <p class="eyebrow is-centered">404</p>
-      <h1 class="mt-3">Makala haikupatikana</h1>
-      <p class="text-muted mt-4">Makala uliyotafuta haipo. Rudi kwenye blogu kusoma makala nyingine.</p>
-      <a class="btn btn-gold mt-6" href="/blog.html">Blogu Zote</a>
-    </div>
-  </main>
-
-  <script type="module" src="/assets/js/partials.js"></script>
+  </div>
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
   <script type="module" src="/assets/js/script.js"></script>
-  <script type="module" src="/assets/js/articles.js"></script>
+  <script type="module" src="/assets/js/admin-core.js"></script>
+  <script type="module" src="/assets/js/admin-articles.js"></script>
 </body>
 </html>
